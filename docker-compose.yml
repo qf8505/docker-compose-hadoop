@@ -1,0 +1,35 @@
+hadoop1:
+    image: centos-hadoop
+    hostname: hadoop1
+    container_name: hadoop1
+    ports: 
+        - "50070:50070"
+        - "8088:8088"
+    links:
+        - hadoop2
+        - hadoop3
+        - hadoop4
+        - hadoop5
+  
+hadoop2:
+    image: centos-hadoop
+    container_name: hadoop2
+    hostname: hadoop2
+    ports:
+        - "50071:50070"
+        - "8089:8088"
+
+hadoop3:
+    image: centos-hadoop
+    container_name: hadoop3
+    hostname: hadoop3
+  
+hadoop4:
+    image: centos-hadoop
+    container_name: hadoop4
+    hostname: hadoop4
+
+hadoop5:
+    image: centos-hadoop
+    container_name: hadoop5
+    hostname: hadoop5

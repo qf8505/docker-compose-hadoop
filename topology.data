@@ -1,0 +1,5 @@
+192.168.2.11 hadoop1 /dc1/rack1
+192.168.2.12 hadoop2 /dc1/rack1
+192.168.2.13 hadoop3 /dc1/rack1
+192.168.2.14 hadoop4 /dc1/rack2
+192.168.2.15 hadoop5 /dc1/rack2
