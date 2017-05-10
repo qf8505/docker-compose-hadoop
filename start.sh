@@ -8,6 +8,8 @@ docker build -t="centos-hadoop" .
 
 docker-compose up -d
 
+#sh init.sh
+
 sleep 3s
 
 docker inspect -f '{{ .NetworkSettings.IPAddress }} {{.Config.Hostname}}' $(docker ps -q)  > /etc/hosts
