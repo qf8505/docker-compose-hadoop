@@ -1,5 +1,5 @@
 hadoop1:
-    image: centos-hadoop 
+    image: centos-hadoop
     hostname: hadoop1
     container_name: hadoop1
     ports: 
