@@ -18,3 +18,9 @@ scp /etc/hosts hadoop2:/etc/hosts
 scp /etc/hosts hadoop3:/etc/hosts
 scp /etc/hosts hadoop4:/etc/hosts
 scp /etc/hosts hadoop5:/etc/hosts
+
+scp /etc/hosts hadoop1:/home/hadoop/hadoop/etc/hadoop/topology.data
+scp /etc/hosts hadoop2:/home/hadoop/hadoop/etc/hadoop/topology.data
+scp /etc/hosts hadoop3:/home/hadoop/hadoop/etc/hadoop/topology.data
+scp /etc/hosts hadoop4:/home/hadoop/hadoop/etc/hadoop/topology.data
+scp /etc/hosts hadoop5:/home/hadoop/hadoop/etc/hadoop/topology.data
