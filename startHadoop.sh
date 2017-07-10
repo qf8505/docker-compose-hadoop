@@ -1,5 +1,12 @@
 #!/bin/bash
 
+topology=hadoop/etc/hadoop/topology.data
+nu=`cat $topology | wc -l`
+for ((i=1;i<=$nu;i++))
+do
+        sed -i ''$i's/$/ \/dc1\/rack'"$[($RANDOM%2+1)]"'/' $topology
+done
+
 ssh hadoop1 "echo 1 >> /data/zookeeper/data/myid"
 ssh hadoop2 "echo 2 >> /data/zookeeper/data/myid"
 ssh hadoop3 "echo 3 >> /data/zookeeper/data/myid"
