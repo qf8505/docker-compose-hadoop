@@ -25,7 +25,7 @@
 
 <property>
 <name>dfs.nameservices</name>
-<value>zgtx</value>
+<value>qf</value>
 </property>
 
 <property>
@@ -41,38 +41,38 @@
 
 <!-- ns1下面有两个NameNode，分别是nn1，nn2 -->
 <property>
-<name>dfs.ha.namenodes.zgtx</name>
+<name>dfs.ha.namenodes.qf</name>
 <value>nn1,nn2</value>
 </property>
 
 <!-- nn1的RPC通信地址 -->
 <property>
-<name>dfs.namenode.rpc-address.zgtx.nn1</name>
+<name>dfs.namenode.rpc-address.qf.nn1</name>
 <value>hadoop1:9000</value>
 </property>
 
 <!-- nn1的http通信地址 -->
 <property>
-<name>dfs.namenode.http-address.zgtx.nn1</name>
+<name>dfs.namenode.http-address.qf.nn1</name>
 <value>hadoop1:50070</value>
 </property>
 
 <!-- nn2的RPC通信地址 -->
 <property>
-<name>dfs.namenode.rpc-address.zgtx.nn2</name>
+<name>dfs.namenode.rpc-address.qf.nn2</name>
 <value>hadoop2:9000</value>
 </property>
 
 <!-- nn2的http通信地址 -->
 <property>
-<name>dfs.namenode.http-address.zgtx.nn2</name>
+<name>dfs.namenode.http-address.qf.nn2</name>
 <value>hadoop2:50070</value>
 </property>
 
 <!-- 指定NameNode的元数据在JournalNode上的存放位置 -->
 <property>
 <name>dfs.namenode.shared.edits.dir</name>
-<value>qjournal://hadoop2:8485;hadoop3:8485;hadoop4:8485;hadoop5:8485/zgtx</value>
+<value>qjournal://hadoop2:8485;hadoop3:8485;hadoop4:8485;hadoop5:8485/qf</value>
 </property>
 
 <!-- 指定JournalNode在本地磁盘存放数据的位置 -->
@@ -89,7 +89,7 @@
 
 <!-- 配置失败自动切换实现方式 -->
 <property>
-<name>dfs.client.failover.proxy.provider.zgtx</name>
+<name>dfs.client.failover.proxy.provider.qf</name>
 <value>org.apache.hadoop.hdfs.server.namenode.ha.ConfiguredFailoverProxyProvider</value>
 </property>
 
