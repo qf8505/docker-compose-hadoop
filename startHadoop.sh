@@ -7,6 +7,11 @@ do
         sed -i ''$i's/$/ \/dc1\/rack'"$[($RANDOM%2+1)]"'/' $topology
 done
 
+scp hadoop/etc/hadoop/topology.data hadoop2:/hadoop/etc/hadoop/topology.data
+scp hadoop/etc/hadoop/topology.data hadoop3:/hadoop/etc/hadoop/topology.data
+scp hadoop/etc/hadoop/topology.data hadoop4:/hadoop/etc/hadoop/topology.data
+scp hadoop/etc/hadoop/topology.data hadoop5:/hadoop/etc/hadoop/topology.data
+
 ssh hadoop1 "echo 1 >> /data/zookeeper/data/myid"
 ssh hadoop2 "echo 2 >> /data/zookeeper/data/myid"
 ssh hadoop3 "echo 3 >> /data/zookeeper/data/myid"
