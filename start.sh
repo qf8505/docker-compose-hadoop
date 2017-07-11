@@ -1,8 +1,10 @@
 #!/bin/sh
 
+if [ ! -f "/root/.ssh/id_rsa.pub" ]; then
 ssh-keygen -t rsa -P ''
+cat /root/.ssh/id_rsa.pub >> /root/hadoop/authorized_keys
 
-cat /root/.ssh/id_rsa.pub >> /root/docker/authorized_keys
+fi
 
 docker build -t="centos-hadoop" .
 
@@ -11,6 +13,8 @@ docker-compose up -d
 #sh init.sh
 
 sleep 3s
+
+rm -rf /root/.ssh/known_hosts
 
 docker inspect -f '{{ .NetworkSettings.IPAddress }} {{.Config.Hostname}}' $(docker ps -q)  > /etc/hosts
 
