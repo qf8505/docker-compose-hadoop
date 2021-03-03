@@ -129,5 +129,36 @@ shell(/bin/true)
 <value>500</value>
 </property>
 
+<!-- HiveServer2 连不上10000；启用 webhdfs 服务 -->
+<property>
+<name>dfs.webhdfs.enabled</name>
+<value>true</value>
+</property>
+<!-- HUE -->
+<property>
+<name>dfs.permissions.enabled</name>
+<value>false</value>
+</property>
+
+<!--打开短路读取开关 -->
+<!-- 打开短路读取配置-->
+<property>
+ <name>dfs.client.read.shortcircuit</name>
+ <value>true</value>
+ </property>
+<!--这是⼀个UNIX域套接字的路径，将⽤于DataNode和本地HDFS客户机之间的通信 -->
+ <property>
+ <name>dfs.domain.socket.path</name>
+ <value>/var/lib/hadoop-hdfs/dn_socket</value>
+ </property>
+<!--block存储元数据信息开发开关 -->
+<property>
+ <name>dfs.datanode.hdfs-blocks-metadata.enabled</name>
+ <value>true</value>
+</property>
+<property>
+ <name>dfs.client.file-block-storage-locations.timeout</name>
+ <value>30000</value>
+</property>
 
 </configuration>

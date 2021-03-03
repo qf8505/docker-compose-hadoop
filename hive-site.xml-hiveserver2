@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<configuration>
+<property>
+	<name>hive.metastore.uris</name>
+	<value>thrift://hadoop1:9083,thrift://hadoop2:9083</value>
+</property>
+<!-- 在命令行中，显示当前操作的数据库 -->
+<property>
+	<name>hive.cli.print.current.db</name>
+	<value>true</value>
+	<description>Whether to include the current database in the Hive prompt.</description>
+</property>
+<!-- 在命令行中，显示数据的表头 -->
+<property>
+	<name>hive.cli.print.header</name>
+	<value>true</value>
+</property>
+<!-- 操作小规模数据时，使用本地模式，提高效率 -->
+<property>
+	<name>hive.exec.mode.local.auto</name>
+	<value>true</value>
+	<description>Let Hive determine whether to run in local mode automatically</description>
+</property>
+
+</configuration>

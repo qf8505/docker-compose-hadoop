@@ -70,3 +70,13 @@ echo "hadoop1's RM is "
 echo "hadoop2's RM is "
 /home/hadoop/hadoop/bin/yarn rmadmin -getServiceState rm2
 
+
+# start hive metastore nohup需要刷新环境变量，或者用全路径
+ssh hadoop2 "mv /home/hadoop/hive/conf/hive-site.xml.metastore /home/hadoop/hive/conf/hive-site.xml"
+ssh hadoop3 "mv /home/hadoop/hive/conf/hive-site.xml.metastore /home/hadoop/hive/conf/hive-site.xml"
+ssh hadoop2 "nohup /home/hadoop/hive/bin/hive --service metastore >/dev/null 2>&1 &"
+ssh hadoop3 "nohup /home/hadoop/hive/bin/hive --service metastore >/dev/null 2>&1 &"
+# start hive metastore
+ssh hadoop1 "mv /home/hadoop/hive/conf/hive-site.xml-hiveserver2 /home/hadoop/hive/conf/hive-site.xml"
+ssh hadoop1 "nohup /home/hadoop/hive/bin/hiveserver2 >/dev/null 2>&1 &"
+

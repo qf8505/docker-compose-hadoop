@@ -3,8 +3,10 @@ hadoop1:
     hostname: hadoop1
     container_name: hadoop1
     ports: 
-        - "50070:50070"
+        - "5070:50070"
         - "8088:8088"
+        - "1022:22"
+        - "8000:8000"
     links:
         - hadoop2
         - hadoop3
@@ -16,9 +18,9 @@ hadoop2:
     container_name: hadoop2
     hostname: hadoop2
     ports:
-        - "50071:50070"
+        - "5071:50070"
         - "8089:8088"
-
+        - "1023:22"
 hadoop3:
     image: centos-hadoop
     container_name: hadoop3

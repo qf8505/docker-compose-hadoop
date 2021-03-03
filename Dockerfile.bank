@@ -7,8 +7,7 @@ FROM centos:7
 MAINTAINER qf
 
 # install some important softwares
-RUN yum -y install openssh-server openssh-clients  net-tools  which ntp lsof rsync unzip
-RUN yum -y install yum install ant asciidoc cyrus-sasl-devel cyrus-sasl-gssapi cyrus-sasl-plain gcc gcc-c++ krb5-devel libffi-devel libxml2-devel libxslt-devel make mysql mysql-devel openldap-devel pythondevel sqlite-devel gmp-devel python-devel.x86_64
+RUN yum -y install openssh-server openssh-clients  net-tools  which
 
 ####################user##########################################
 RUN groupadd hadoop
@@ -20,10 +19,10 @@ RUN mkdir /usr/local/java
 
 # copy the jdk  archive to the image,and it will automaticlly unzip the tar file
 #ADD jdk-7u79-linux-x64.tar.gz /usr/local/java/
-ADD jdk-8u231-linux-x64.tar.gz /usr/local/java/
+ADD jdk-8u121-linux-x64.tar.gz /usr/local/java/
 
 # make a symbol link 
-RUN ln -s /usr/local/java/jdk1.8.0_231 /usr/local/jdk
+RUN ln -s /usr/local/java/jdk1.8.0_121 /usr/local/jdk
 
 ###################Configurate SSH#################################
 #generate key files
@@ -48,10 +47,10 @@ RUN cat /home/hadoop/.ssh/id_rsa.pub >> /home/hadoop/.ssh/authorized_keys
 
 ###################Configurate Hadoop##############################
 # copy the hadoop  archive to the image,and it will automaticlly unzip the tar file
-ADD hadoop-2.9.2.tar.gz /home/hadoop/
+ADD hadoop-2.7.1.tar.gz /home/hadoop/
 
 # make a symbol link
-RUN ln -s /home/hadoop/hadoop-2.9.2 /home/hadoop/hadoop
+RUN ln -s /home/hadoop/hadoop-2.7.1 /home/hadoop/hadoop
 
 # copy the configuration file to image
 COPY hadoop-env.sh /home/hadoop/hadoop/etc/hadoop/
@@ -63,7 +62,6 @@ COPY slaves /home/hadoop/hadoop/etc/hadoop/
 COPY topology.sh /home/hadoop/hadoop/etc/hadoop/
 COPY topology.data /home/hadoop/hadoop/etc/hadoop/
 COPY startHadoop.sh /home/hadoop/
-COPY httpfs-site.xml /home/hadoop/hadoop/etc/hadoop
 
 ############################zookeeper#############################
 ADD zookeeper-3.4.7.tar.gz /home/hadoop
@@ -71,14 +69,13 @@ RUN ln -s /home/hadoop/zookeeper-3.4.7 /home/hadoop/zookeeper
 COPY zoo.cfg /home/hadoop/zookeeper/conf/
 
 ##################hive#######################################
-ADD apache-hive-2.3.7-bin.tar.gz /home/hadoop/
+ADD apache-hive-1.2.1-bin.tar.gz /home/hadoop/
 
-RUN ln -s /home/hadoop/apache-hive-2.3.7-bin /home/hadoop/hive
+RUN ln -s /home/hadoop/apache-hive-1.2.1-bin /home/hadoop/hive
 
 COPY hive-env.sh /home/hadoop/hive/conf/
-COPY hive-site.xml.metastore /home/hadoop/hive/conf/
-COPY hive-site.xml-hiveserver2 /home/hadoop/hive/conf/
-COPY mysql-connector-java-5.1.49.jar /home/hadoop/hive/lib/
+COPY hive-site.xml /home/hadoop/hive/conf/
+COPY mysql-connector-java-5.1.28.jar /home/hadoop/hive/lib/
 
 
 ##################spark#######################################
@@ -90,14 +87,14 @@ COPY spark-env.sh /home/hadoop/spark/conf/
 COPY slaves /home/hadoop/spark/conf/
 COPY spark-defaults.conf /home/hadoop/spark/conf/
 COPY hive-site.xml /home/hadoop/spark/conf/
-COPY mysql-connector-java-5.1.49.jar /home/hadoop/spark/lib/
+COPY mysql-connector-java-5.1.28.jar /home/hadoop/spark/lib/
 
 
 #######################sqoop##################################
 ADD sqoop-1.4.6.bin__hadoop-2.0.4-alpha.tar.gz /home/hadoop/
 RUN ln -s /home/hadoop/sqoop-1.4.6.bin__hadoop-2.0.4-alpha /home/hadoop/sqoop
 COPY sqoop-env.sh /home/hadoop/sqoop/conf/
-COPY mysql-connector-java-5.1.49.jar /home/hadoop/sqoop/lib/
+COPY mysql-connector-java-5.1.28.jar /home/hadoop/sqoop/lib/
 COPY ojdbc14-10.2.0.5.0.jar /home/hadoop/sqoop/lib/
 
 #######################elasticsearch##########################
@@ -106,15 +103,6 @@ RUN ln -s /home/hadoop/elasticsearch-5.4.3 /home/hadoop/elasticsearch
 COPY elasticsearch.yml /home/hadoop/elasticsearch/config/
 #VOLUME ["/home/hadoop/elasticsearch/config"]
 COPY startES.sh /home/hadoop/
-
-######################redis####################################
-ADD redis-6.0.6.tar.gz /home/hadoop/
-RUN ln -s /home/hadoop/redis-6.0.6 /home/hadoop/redis
-COPY startRedis.sh /home/hadoop/
-
-########################hue####################################
-ADD hue-release-4.3.0.zip /home/hadoop
-ADD apache-maven-3.6.3-bin.tar.gz /home/hadoop
 
 ################### Integration configuration #######################
 # set environment variables
@@ -135,37 +123,25 @@ RUN echo "PATH=\${HADOOP_HOME}/bin:\${HADOOP_HOME}/sbin:\${JAVA_HOME}/bin:\$SPAR
 
 USER root
 ##########################root##########################
-RUN echo "JAVA_HOME=/usr/local/jdk" >> /root/.bash_profile
-RUN echo "JRE_HOME=\${JAVA_HOME}/jre" >> /root/.bash_profile
-RUN echo "CLASSPATH=.:\${JAVA_HOME}/lib:\${JRE_HOME}/lib" >> /root/.bash_profile
-RUN echo "HADOOP_HOME=/home/hadoop/hadoop" >> /root/.bash_profile
-RUN echo "SPARK_HOME=/home/hadoop/spark" >> /root/.bash_profile
-RUN echo "HIVE_HOME=/home/hadoop/hive" >> /root/.bash_profile
-RUN echo "SQOOP_HOME=/home/hadoop/sqoop" >> /root/.bash_profile
-RUN echo "MAVEN_HOME=/home/hadoop/apache-maven-3.6.3" >> /root/.bash_profile
-RUN echo "PATH=\${HADOOP_HOME}/bin:\${HADOOP_HOME}/sbin:\${JAVA_HOME}/bin:\$SPARK_HOME/bin:\$SPARK_HOME/sbin:\$SQOOP_HOME/bin:\$HIVE_HOME/bin:\$MAVEN_HOME/bin:\$PATH" >> /root/.bash_profile
-
-#hadoop.io
-RUN mkdir -p /var/lib/hadoop-hdfs
 RUN chmod 777 /home/hadoop/hadoop/etc/hadoop/topology.sh
 RUN chmod 777 /home/hadoop/hadoop/etc/hadoop/topology.data
 RUN mkdir -p /data/zookeeper/data
 RUN mkdir -p /data/hadoop/namenode
 RUN mkdir -p /data/es
 RUN chmod -R 777 /data
-#RUN chown -R hadoop /home/hadoop/zookeeper-3.4.7
-#RUN chown -R hadoop /home/hadoop/hadoop-2.9.2
-#RUN chown -R hadoop /home/hadoop/apache-hive-1.2.1-bin
-#RUN chown -R hadoop /home/hadoop/spark-2.1.0-bin-hadoop2.7
-#RUN chown -R hadoop /home/hadoop/sqoop-1.4.6.bin__hadoop-2.0.4-alpha
-#RUN chown -R hadoop /home/hadoop/elasticsearch-5.4.3
+RUN chown -R hadoop /home/hadoop/zookeeper-3.4.7
+RUN chown -R hadoop /home/hadoop/hadoop-2.7.1
+RUN chown -R hadoop /home/hadoop/apache-hive-1.2.1-bin
+RUN chown -R hadoop /home/hadoop/spark-2.1.0-bin-hadoop2.7
+RUN chown -R hadoop /home/hadoop/sqoop-1.4.6.bin__hadoop-2.0.4-alpha
+RUN chown -R hadoop /home/hadoop/elasticsearch-5.4.3
 
-#RUN chgrp -R hadoop /home/hadoop/zookeeper-3.4.7
-#RUN chgrp -R hadoop /home/hadoop/hadoop-2.9.2
-#RUN chgrp -R hadoop /home/hadoop/apache-hive-1.2.1-bin
-#RUN chgrp -R hadoop /home/hadoop/spark-2.1.0-bin-hadoop2.7
-#RUN chgrp -R hadoop /home/hadoop/sqoop-1.4.6.bin__hadoop-2.0.4-alpha
-#RUN chgrp -R hadoop /home/hadoop/elasticsearch-5.4.3
+RUN chgrp -R hadoop /home/hadoop/zookeeper-3.4.7
+RUN chgrp -R hadoop /home/hadoop/hadoop-2.7.1
+RUN chgrp -R hadoop /home/hadoop/apache-hive-1.2.1-bin
+RUN chgrp -R hadoop /home/hadoop/spark-2.1.0-bin-hadoop2.7
+RUN chgrp -R hadoop /home/hadoop/sqoop-1.4.6.bin__hadoop-2.0.4-alpha
+RUN chgrp -R hadoop /home/hadoop/elasticsearch-5.4.3
 
 RUN /home/hadoop/elasticsearch/bin/elasticsearch-plugin install x-pack
 
@@ -174,9 +150,6 @@ RUN /home/hadoop/elasticsearch/bin/elasticsearch-plugin install x-pack
 RUN echo "* hard nofile 65536" >> /etc/security/limits.conf
 RUN echo "* soft nofile 65536" >> /etc/security/limits.conf
 RUN echo "vm.max_map_count=262144" >> /etc/sysctl.conf
-
-###########################yum##################################
-COPY local.repo /etc/yum.repos.d/
 
 # change hadoop environment variables
 RUN sed -i "s?JAVA_HOME=\${JAVA_HOME}?JAVA_HOME=/usr/local/jdk?g" /home/hadoop/hadoop/etc/hadoop/hadoop-env.sh
@@ -187,7 +160,7 @@ RUN echo "export PATH=\$PATH:\$JAVA_HOME/bin" >> /etc/bashrc
 #更新系统时区
 RUN cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 RUN echo "Asia/Shanghai" >> /etc/timezone
-#RUN yum -y install ntp
+RUN yum -y install ntp
 #ENTRYPOINT /usr/sbin/ntpdate asia.pool.ntp.org && hwclock -w
 
 # set password of root

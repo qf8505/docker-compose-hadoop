@@ -42,6 +42,16 @@
 <value>hadoop2</value>
 </property>
 
+<property>
+  <name>yarn.resourcemanager.webapp.address.rm1</name>
+  <value>hadoop1:8088</value>
+</property>
+
+<property>
+  <name>yarn.resourcemanager.webapp.address.rm2</name>
+  <value>hadoop2:8088</value>
+</property>
+
 <!-- 指定zk集群地址 -->
 <property>
 <name>yarn.resourcemanager.zk-address</name>
@@ -59,13 +69,18 @@
 </property>
 
 <property>
+<name>yarn.nodemanager.vmem-pmem-ratio</name>
+<value>4.1</value>
+</property>
+
+<property>
 <name>yarn.nodemanager.resource.memory-mb</name>
-<value>16384</value>
+<value>8192</value>
 </property>
 
 <property>
 <name>yarn.scheduler.maximum-allocation-mb</name>
-<value>10240</value>
+<value>8192</value>
 </property>
 
 <property>
@@ -77,6 +92,5 @@
 <name>yarn.nodemanager.log-dirs</name>
 <value>/data/hadoop/logs/</value>
 </property>
-
 
 </configuration>

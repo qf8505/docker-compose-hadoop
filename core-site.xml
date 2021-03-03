@@ -40,8 +40,44 @@
 </property>
 
 <property>
-                 <name>topology.script.file.name</name>
-                 <value>/home/hadoop/hadoop/etc/hadoop/topology.sh</value>
-        </property>
+	<name>topology.script.file.name</name>
+    <value>/home/hadoop/hadoop/etc/hadoop/topology.sh</value>
+</property>
 
+<!-- HiveServer2 连不上10000；hadoop为安装用户 -->
+<!-- root用户可以代理所有主机上的所有用户 -->
+<property>
+	<name>hadoop.proxyuser.root.hosts</name>
+	<value>*</value>
+</property>
+<property>
+	<name>hadoop.proxyuser.root.groups</name>
+	<value>*</value>
+</property>
+<property>
+	<name>hadoop.proxyuser.hadoop.hosts</name>
+	<value>*</value>
+</property>
+<property>
+	<name>hadoop.proxyuser.hadoop.groups</name>
+	<value>*</value>
+</property>
+
+<!-- HUE -->
+<property>
+<name>hadoop.proxyuser.hue.hosts</name>
+<value>*</value>
+</property>
+<property>
+<name>hadoop.proxyuser.hue.groups</name>
+<value>*</value>
+</property>
+<property>
+<name>hadoop.proxyuser.hdfs.hosts</name>
+<value>*</value>
+</property>
+<property>
+<name>hadoop.proxyuser.hdfs.groups</name>
+<value>*</value>
+</property>
 </configuration>

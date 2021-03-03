@@ -1,0 +1,6 @@
+hadoop1:
+    image: centos-yum
+    hostname: Impala
+    container_name: Impala
+    ports: 
+        - "1080:80"

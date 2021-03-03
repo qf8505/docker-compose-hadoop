@@ -1,0 +1,5 @@
+[local]
+name=local
+baseurl=http://10.0.112.18:1080/cdh57/
+gpgcheck=0
+enabled=1
